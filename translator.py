@@ -37,6 +37,9 @@ ENERGY_VAD_THRESHOLD = 220  # fallback energy threshold when webrtcvad is unavai
 
 # --- Configuration ---
 model_path = "./models/small"
+# Directory for temporary files (recordings, tts outputs)
+TMP_DIR = os.path.join(os.path.dirname(__file__), "tmp")
+os.makedirs(TMP_DIR, exist_ok=True)
 # Default to a pleasant female voice; allow override with environment variable `TTS_VOICE`.
 # Examples: en-US-JennyNeural, en-US-AmberNeural, zh-CN-XiaoxiaoNeural
 TTS_VOICE = os.environ.get("TTS_VOICE", "en-US-JennyNeural")
@@ -89,7 +92,7 @@ def translate_text(text):
 
 async def tts_and_play(text):
     """Use ffplay for playback; this is the most reliable method."""
-    temp_mp3 = f"tmp_{hash(text)}.mp3"
+    temp_mp3 = os.path.join(TMP_DIR, f"tmp_{hash(text)}.mp3")
     try:
         communicate = edge_tts.Communicate(text, TTS_VOICE)
         await communicate.save(temp_mp3)
@@ -261,13 +264,15 @@ def main_process():
                 time.sleep(0.05)
 
             # show recognition starting
-            record_audio("rec.wav", duration=RECORD_DURATION, fs=SAMPLE_RATE)
+            rec_path = os.path.join(TMP_DIR, "rec.wav")
+            rec_trim_path = os.path.join(TMP_DIR, "rec_trim.wav")
+            record_audio(rec_path, duration=RECORD_DURATION, fs=SAMPLE_RATE)
             # trim silence to reduce useless frames
-            trim_silence("rec.wav", "rec_trim.wav", threshold=500, chunk_ms=30, fs=SAMPLE_RATE)
+            trim_silence(rec_path, rec_trim_path, threshold=500, chunk_ms=30, fs=SAMPLE_RATE)
 
             # Start recognition
             segments, _ = model.transcribe(
-                "rec_trim.wav",
+                rec_trim_path,
                 beam_size=BEAM_SIZE,
                 language=TRANSCRIBE_LANGUAGE,
                 vad_filter=True,
