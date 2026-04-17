@@ -1,0 +1,33 @@
+# Core ASR (speech-to-text)
+faster-whisper
+
+# Packaging tools (ensure pkg_resources is available)
+setuptools
+wheel
+
+# Audio capture
+sounddevice
+numpy
+# Note: On Windows, installing pyaudio is easier with a C++ build environment,
+# or use `pip install pipwin` then `pipwin install pyaudio`.
+#pyaudio
+#SpeechRecognition
+
+# Translation and TTS
+requests
+edge-tts
+
+# Audio playback
+# pygame-ce is a community fork of pygame; the import name is still `pygame`
+pygame-ce
+
+# Voice activity detection (light VAD)
+webrtcvad
+# Note: on some Windows setups `webrtcvad` requires build tools and setuptools.
+# If installation fails, remove `webrtcvad` from this file and use the fallback VAD implementation.
+
+# Terminal UI
+rich
+
+# Basic dependencies
+tqdm

@@ -1,0 +1,74 @@
+# Default Python .gitignore
+# See: https://github.com/github/gitignore/blob/main/Python.gitignore
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+.tox/
+*.cover
+*.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.coveragerc
+.pytest_cache/
+
+# IDE / editors
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secrets / env
+.env
+.env.*
+env.local
+
+# Misc
+*.log
+
+# Cache for huggingface / model downloads
+.cache/huggingface/
+
+# Ignore models directory contents (large model files)
+# Keep a small tracked marker file so the empty directory can be present in the repo
+/models/*
+!/models/__init__.py
+!/models/.gitkeep
