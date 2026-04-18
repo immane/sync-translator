@@ -154,3 +154,32 @@ All tunable constants are at the top of `translator.py`:
 ## License
 
 MIT
+
+---
+
+## Modular Layout & Quick Start
+
+This repository was refactored into modules to separate concerns:
+
+- `translator.py` — entrypoint that orchestrates recording, transcription, translation and TTS.
+- `config.py` — centralized configuration (env override friendly).
+- `audio.py` — audio capture and preprocessing utilities.
+- `transcribe.py` — model loading and transcription helper.
+- `tts.py` — text-to-speech playback helper.
+
+Quick start (CPU):
+```powershell
+$env:MODEL_DEVICE='cpu'
+python translator.py
+```
+
+Quick start (GPU — ensure CUDA runtime DLLs are on PATH):
+```powershell
+$env:USE_GPU='1'
+$env:MODEL_DEVICE='cuda'
+$env:COMPUTE_TYPE='float16'
+python translator.py
+```
+
+If you encounter errors about missing `cublas64_*.dll`, add the CUDA `bin` path to your `PATH` or install a matching CUDA runtime.
+
